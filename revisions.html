@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0d1014">
+<title>Révisions UE2 · Benji</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,400;9..144,600;9..144,700&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Palette */
+    --bg:        #0d1014;
+    --bg-soft:   #141820;
+    --surf:      #1a1f29;
+    --surf-hi:   #232936;
+    --border:    #2a3142;
+    --border-hi: #3a4358;
+    --ink:       #e8ecf4;
+    --ink-dim:   #9aa3b8;
+    --ink-mute:  #5d6478;
+
+    /* Accents par bloc */
+    --b1: #f0a060;   /* EM bases — orange */
+    --b2: #7eb8f7;   /* Ondes/Relat — bleu */
+    --b3: #72d9a0;   /* Quantique/Exam — vert */
+    --today: #f4d35e;
+
+    /* Bg colorés (10%) */
+    --b1-bg: rgba(240,160,96,0.08);
+    --b2-bg: rgba(126,184,247,0.08);
+    --b3-bg: rgba(114,217,160,0.08);
+
+    --radius: 14px;
+    --radius-sm: 9px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.55;
+    overscroll-behavior: none;
+    min-height: 100vh;
+  }
+
+  body {
+    background:
+      radial-gradient(ellipse 600px 300px at 50% -10%, rgba(126,184,247,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 500px 200px at 0% 100%, rgba(240,160,96,0.04) 0%, transparent 60%),
+      var(--bg);
+    background-attachment: fixed;
+    padding: 0 0 80px 0;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  /* ─── HEADER ─────────────────────────────────── */
+  header {
+    padding: 28px 20px 18px;
+    position: sticky;
+    top: 0;
+    background: linear-gradient(180deg, rgba(13,16,20,0.97) 0%, rgba(13,16,20,0.92) 80%, rgba(13,16,20,0) 100%);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 50;
+  }
+  .sup {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 6px;
+  }
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 26px;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+    margin-bottom: 14px;
+  }
+  h1 em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--ink-dim);
+  }
+
+  /* Progression globale */
+  .prog-wrap {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 4px;
+  }
+  .prog-bar {
+    flex: 1;
+    height: 6px;
+    background: var(--surf);
+    border-radius: 99px;
+    overflow: hidden;
+    position: relative;
+  }
+  .prog-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--b1) 0%, var(--b2) 50%, var(--b3) 100%);
+    border-radius: 99px;
+    width: 0%;
+    transition: width .6s cubic-bezier(.4,0,.2,1);
+  }
+  .prog-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    min-width: 50px;
+    text-align: right;
+  }
+  .prog-sub {
+    font-size: 11.5px;
+    color: var(--ink-mute);
+    letter-spacing: 0.3px;
+    margin-top: 2px;
+  }
+
+  /* ─── BLOCS ──────────────────────────────────── */
+  .blocs {
+    padding: 12px 20px 24px;
+  }
+
+  .bloc {
+    margin-bottom: 28px;
+  }
+  .bloc-head {
+    display: flex; align-items: baseline; gap: 10px;
+    margin-bottom: 12px;
+    padding-left: 2px;
+  }
+  .bloc-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    padding: 3px 7px;
+    border-radius: 4px;
+    background: var(--surf);
+    color: var(--ink-dim);
+  }
+  .bloc[data-bloc="1"] .bloc-num { color: var(--b1); background: var(--b1-bg); }
+  .bloc[data-bloc="2"] .bloc-num { color: var(--b2); background: var(--b2-bg); }
+  .bloc[data-bloc="3"] .bloc-num { color: var(--b3); background: var(--b3-bg); }
+
+  .bloc-title {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--ink-dim);
+    font-weight: 500;
+  }
+
+  /* ─── CARTE JOUR ─────────────────────────────── */
+  .day {
+    background: var(--surf);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 10px;
+    overflow: hidden;
+    transition: border-color .2s, transform .15s;
+  }
+  .day.complete { opacity: 0.55; }
+  .day.complete .day-toggle::after { color: var(--b3); }
+  .day.today {
+    border-color: var(--today);
+    box-shadow: 0 0 0 1px var(--today), 0 8px 32px -8px rgba(244,211,94,0.25);
+  }
+  .day.today .day-date::before {
+    content: '●';
+    color: var(--today);
+    margin-right: 6px;
+    font-size: 10px;
+    vertical-align: middle;
+  }
+
+  .day-toggle {
+    width: 100%;
+    background: none;
+    border: none;
+    color: var(--ink);
+    padding: 16px 18px;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: inherit;
+    transition: background .15s;
+  }
+  .day-toggle:active { background: var(--surf-hi); }
+  .day-toggle::after {
+    content: '+';
+    margin-left: auto;
+    font-size: 22px;
+    font-weight: 300;
+    color: var(--ink-mute);
+    transition: transform .25s, color .2s;
+    line-height: 1;
+  }
+  .day.open .day-toggle::after { transform: rotate(45deg); color: var(--ink); }
+
+  .day-id {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--ink-mute);
+    min-width: 28px;
+  }
+  .bloc[data-bloc="1"] .day-id { color: var(--b1); }
+  .bloc[data-bloc="2"] .day-id { color: var(--b2); }
+  .bloc[data-bloc="3"] .day-id { color: var(--b3); }
+
+  .day-main { flex: 1; min-width: 0; }
+  .day-date {
+    font-size: 11px;
+    color: var(--ink-mute);
+    letter-spacing: 0.3px;
+    margin-bottom: 2px;
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: lowercase;
+  }
+  .day-title {
+    font-size: 14.5px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+  .day-meta {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--ink-mute);
+    margin-top: 4px;
+  }
+  .mini-prog {
+    width: 60px; height: 3px;
+    background: var(--border);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .mini-prog-fill {
+    height: 100%;
+    background: var(--ink-dim);
+    transition: width .4s;
+    width: 0%;
+  }
+  .bloc[data-bloc="1"] .mini-prog-fill { background: var(--b1); }
+  .bloc[data-bloc="2"] .mini-prog-fill { background: var(--b2); }
+  .bloc[data-bloc="3"] .mini-prog-fill { background: var(--b3); }
+
+  /* Contenu déplié */
+  .day-body {
+    display: none;
+    padding: 0 18px 18px;
+    border-top: 1px solid var(--border);
+  }
+  .day.open .day-body { display: block; animation: fadeIn .25s ease; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .focus-flag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--today);
+    margin: 14px 0 -2px;
+  }
+
+  .task {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    min-height: 46px;
+  }
+  .task:last-child { border-bottom: none; }
+  .task input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 6px;
+    border: 1.5px solid var(--border-hi);
+    background: transparent;
+    cursor: pointer;
+    margin-top: 1px;
+    flex-shrink: 0;
+    position: relative;
+    transition: all .15s;
+  }
+  .task input[type="checkbox"]:checked {
+    background: var(--b3);
+    border-color: var(--b3);
+  }
+  .task input[type="checkbox"]:checked::after {
+    content: '✓';
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--bg);
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .task-text {
+    flex: 1;
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--ink);
+    transition: color .2s, text-decoration .2s;
+  }
+  .task input:checked + .task-text {
+    color: var(--ink-mute);
+    text-decoration: line-through;
+    text-decoration-color: var(--ink-mute);
+  }
+  .task-text strong {
+    color: var(--today);
+    font-weight: 600;
+  }
+  .task input:checked + .task-text strong { color: var(--ink-mute); }
+
+  /* Zone notes */
+  .notes {
+    margin-top: 14px;
+  }
+  .notes-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 6px;
+  }
+  textarea {
+    width: 100%;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--ink);
+    font-family: inherit;
+    font-size: 13.5px;
+    padding: 10px 12px;
+    resize: vertical;
+    min-height: 60px;
+    line-height: 1.5;
+    transition: border-color .2s;
+  }
+  textarea:focus {
+    outline: none;
+    border-color: var(--border-hi);
+  }
+  textarea::placeholder { color: var(--ink-mute); }
+
+  /* Pauses */
+  .pause {
+    background: transparent;
+    border: 1.5px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .pause-icon {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--ink-mute);
+  }
+  .pause-text {
+    font-size: 13px;
+    color: var(--ink-dim);
+    line-height: 1.35;
+  }
+  .pause-text em {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--ink-mute);
+    font-size: 11px;
+    display: block;
+    margin-top: 2px;
+  }
+
+  /* ─── FOOTER ─────────────────────────────────── */
+  footer {
+    padding: 20px;
+    text-align: center;
+    margin-top: 20px;
+  }
+  .reset {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--ink-mute);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 9px 16px;
+    border-radius: 99px;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .reset:active {
+    background: var(--surf);
+    color: var(--ink-dim);
+  }
+  .save-hint {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-mute);
+    margin-top: 10px;
+    letter-spacing: 0.5px;
+  }
+  .save-hint.flash {
+    color: var(--b3);
+    transition: color .3s;
+  }
+
+  /* Modal */
+  .modal-backdrop {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(4px);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-backdrop.show { display: flex; }
+  .modal {
+    background: var(--surf);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+    max-width: 320px;
+    width: 100%;
+  }
+  .modal h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .modal p {
+    font-size: 13.5px;
+    color: var(--ink-dim);
+    margin-bottom: 18px;
+    line-height: 1.5;
+  }
+  .modal-actions {
+    display: flex; gap: 10px;
+  }
+  .modal-actions button {
+    flex: 1;
+    padding: 10px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--ink);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  .modal-actions .danger {
+    background: rgba(232,92,122,0.15);
+    border-color: rgba(232,92,122,0.4);
+    color: #e85c7a;
+  }
+
+  /* Desktop tweaks */
+  @media (min-width: 600px) {
+    header { padding: 36px 32px 22px; }
+    .blocs { padding: 16px 32px 32px; }
+    h1 { font-size: 30px; }
+    .day-toggle { padding: 18px 20px; }
+    .day-body { padding: 0 20px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="sup">FGE2 · S4 · UE2 — Rattrapages</div>
+  <h1>12 jours pour tout reprendre <em>· Électromagnétisme & Physique moderne</em></h1>
+  <div class="prog-wrap">
+    <div class="prog-bar"><div class="prog-fill" id="globalProg"></div></div>
+    <div class="prog-num" id="globalNum">0 / 0</div>
+  </div>
+  <div class="prog-sub" id="globalSub">Démarrage</div>
+</header>
+
+<div class="blocs" id="blocs"></div>
+
+<footer>
+  <button class="reset" id="resetBtn">↻ Réinitialiser</button>
+  <div class="save-hint" id="saveHint">Sauvegarde automatique</div>
+</footer>
+
+<div class="modal-backdrop" id="modal">
+  <div class="modal">
+    <h3>Tout réinitialiser ?</h3>
+    <p>Toutes tes cases cochées et tes notes seront effacées. Cette action est irréversible.</p>
+    <div class="modal-actions">
+      <button id="cancelReset">Annuler</button>
+      <button class="danger" id="confirmReset">Effacer</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════════════════════
+// DONNÉES DU PLANNING
+// ════════════════════════════════════════════════════════
+const PLAN = [
+  { bloc: 1, blocTitle: "Bases EM + Induction", items: [
+    { type: 'day', id: 'J1', date: 'mardi 26 mai', title: 'Maxwell + boîte à outils', tasks: [
+      "Relire Cours EM (chap. 1-3) et Amphi 1",
+      "Refaire propre les 4 équations de Maxwell (intégrale + locale + sens physique)",
+      "Revoir les opérateurs (div, rot, grad, Δ) en cartésien et cylindrique",
+      "Créer une fiche A4 récap « boîte à outils Maxwell »"
+    ]},
+    { type: 'day', id: 'J2', date: 'mercredi 27 mai', title: 'Électrocinétique + Drude + Hall', tasks: [
+      "Séances 1-2 + Amphi 2 : courant, densité, conservation de la charge",
+      "Modèle de Drude → loi d'Ohm locale → loi de Joule",
+      "Effet Hall, force de Laplace",
+      "Refaire TD 11 (cyclotron / Drude)"
+    ]},
+    { type: 'day', id: 'J3', date: 'jeudi 28 mai', title: 'ARQS + Induction Neumann', tasks: [
+      "Séances 13-14 : ARQS, critère ℓ ≪ λ, conséquences sur Maxwell-Ampère",
+      "Loi de Faraday, calcul de flux et de f.é.m.",
+      "<strong>Refaire l'exo 2 de l'examen</strong> (spire + fil infini) sans correction",
+      "Compléter avec TD 15-16"
+    ]},
+    { type: 'day', id: 'J4', date: 'vendredi 29 mai', title: 'Induction Lorentz + canon EM', tasks: [
+      "Conducteur en mouvement, f.é.m. motionelle, bilan énergétique",
+      "<strong>Refaire intégralement l'exo 3 de l'examen</strong> (canon EM) en conditions réelles",
+      "Comparer ligne par ligne à la correction, noter où ça a bloqué"
+    ]},
+    { type: 'pause', title: 'Pause · 30-31 mai', sub: 'Vraie coupure. Le sommeil consolide ce que tu as fait cette semaine.' }
+  ]},
+  { bloc: 2, blocTitle: "Ondes EM + Relativité + amorce Quantique", items: [
+    { type: 'day', id: 'J5', date: 'lundi 1er juin', title: 'Ondes EM dans le vide', tasks: [
+      "Séances 17-18 + Amphi 6-7",
+      "Démonstration de l'équation d'onde depuis Maxwell (à savoir refaire)",
+      "OPPH, transversalité, relation de dispersion, polarisation",
+      "Vecteur de Poynting + énergie EM"
+    ]},
+    { type: 'day', id: 'J6', date: 'mardi 2 juin', title: 'Ondes guidées + épaisseur de peau', focus: true, tasks: [
+      "Séance 19 : guides d'onde, pulsation de coupure ω_c",
+      "<strong>Refaire l'exo 1 de l'examen</strong> (onde guidée) en entier sans correction",
+      "Comprendre : α via Maxwell-Gauss, ω_c = πc/a, calcul de B via Maxwell-Faraday",
+      "Séances 20-21 : ondes dans conducteurs, épaisseur de peau δ"
+    ]},
+    { type: 'day', id: 'J7', date: 'mercredi 3 juin', title: 'Relativité — Galilée → Lorentz', tasks: [
+      "CM1 + Séance 1 + Amphi relativité",
+      "Postulats d'Einstein, transformations de Lorentz, facteur γ",
+      "Dilatation des durées, contraction des longueurs",
+      "<strong>Refaire l'exo 1 PM</strong> (mésons π) dans les deux référentiels"
+    ]},
+    { type: 'day', id: 'J8', date: 'jeudi 4 juin', title: 'Espace-temps + quadrivecteurs', tasks: [
+      "CM2 + Séances 2-3 : intervalle, cône de lumière, temps propre, causalité",
+      "Quadri-impulsion, E = γmc², relation E² = (pc)² + (mc²)²",
+      "Composition relativiste des vitesses (PM1)"
+    ]},
+    { type: 'day', id: 'J9', date: 'vendredi 5 juin', title: 'Quantique partie 1', tasks: [
+      "Postulats : ψ, |ψ|², normalisation, valeurs moyennes ⟨x⟩, ⟨x²⟩",
+      "Inégalités de Heisenberg",
+      "<strong>Refaire l'exo 2 PM</strong> (fonction d'onde parabolique) + questions bonus",
+      "Démarrer Schrödinger (forme dépendante / indépendante du temps)"
+    ]},
+    { type: 'pause', title: 'Pause · 6-7 juin', sub: 'Vraie coupure. Le J9 introduit Schrödinger pour mariner — efficace en quantique.' }
+  ]},
+  { bloc: 3, blocTitle: "Schrödinger + entraînement examen", items: [
+    { type: 'day', id: 'J10', date: 'lundi 8 juin', title: 'Schrödinger + chute potentiel + exam blanc EM', focus: true, tasks: [
+      "Matin : états stationnaires, raccordement en x=0, coefficients r, t, probabilités R, T",
+      "Matin : <strong>refaire l'exo 3 PM</strong> (chute de potentiel) intégralement",
+      "Après-midi (3h) : examen blanc EM complet en conditions réelles",
+      "Soir : correction + noter les 3 erreurs les plus importantes"
+    ]},
+    { type: 'day', id: 'J11', date: 'mardi 9 juin', title: 'Examen blanc PM + fiches récap', tasks: [
+      "Matin (3h) : examen blanc PM complet en conditions réelles",
+      "Après-midi : correction détaillée",
+      "Soir : créer 2 fiches A4 recto-verso ultra-condensées (1 EM, 1 PM)"
+    ]},
+    { type: 'day', id: 'J12', date: 'mercredi 10 juin', title: 'Veille — léger', tasks: [
+      "Matin : relire les 2 fiches A4",
+      "Début d'après-midi : revoir les 3 exos de l'examen original à blanc",
+      "Après 16h : STOP physique. Marche, sport doux, dîner léger, dormir tôt",
+      "Pas de nouvelle notion ce jour-là"
+    ]}
+  ]}
+];
+
+const TODAY_ISO = (() => {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+})();
+
+const DAY_DATES = {
+  'J1':'2026-05-26','J2':'2026-05-27','J3':'2026-05-28','J4':'2026-05-29',
+  'J5':'2026-06-01','J6':'2026-06-02','J7':'2026-06-03','J8':'2026-06-04','J9':'2026-06-05',
+  'J10':'2026-06-08','J11':'2026-06-09','J12':'2026-06-10'
+};
+
+// ════════════════════════════════════════════════════════
+// PERSISTENCE
+// ════════════════════════════════════════════════════════
+const STATE_KEY = 'ue2-revisions-state';
+let state = { tasks: {}, notes: {}, open: {} };
+
+async function loadState() {
+  try {
+    const result = await window.storage.get(STATE_KEY);
+    if (result && result.value) {
+      state = JSON.parse(result.value);
+      state.tasks = state.tasks || {};
+      state.notes = state.notes || {};
+      state.open = state.open || {};
+    }
+  } catch (e) {
+    // No existing state, use defaults
+  }
+}
+
+let saveTimer = null;
+function saveState() {
+  if (saveTimer) clearTimeout(saveTimer);
+  saveTimer = setTimeout(async () => {
+    try {
+      await window.storage.set(STATE_KEY, JSON.stringify(state));
+      flashSave();
+    } catch (e) {
+      console.error('Save error:', e);
+    }
+  }, 350);
+}
+
+function flashSave() {
+  const hint = document.getElementById('saveHint');
+  hint.textContent = '✓ Sauvegardé';
+  hint.classList.add('flash');
+  setTimeout(() => {
+    hint.textContent = 'Sauvegarde automatique';
+    hint.classList.remove('flash');
+  }, 1200);
+}
+
+// ════════════════════════════════════════════════════════
+// RENDU
+// ════════════════════════════════════════════════════════
+function taskKey(dayId, idx) { return `${dayId}-t${idx}`; }
+
+function renderApp() {
+  const root = document.getElementById('blocs');
+  root.innerHTML = '';
+
+  PLAN.forEach(group => {
+    const blocEl = document.createElement('section');
+    blocEl.className = 'bloc';
+    blocEl.dataset.bloc = group.bloc;
+    blocEl.innerHTML = `
+      <div class="bloc-head">
+        <span class="bloc-num">Bloc ${group.bloc}</span>
+        <span class="bloc-title">${group.blocTitle}</span>
+      </div>
+    `;
+    group.items.forEach(item => {
+      if (item.type === 'pause') {
+        const p = document.createElement('div');
+        p.className = 'pause';
+        p.innerHTML = `
+          <div class="pause-icon">~</div>
+          <div class="pause-text">${item.title}<em>${item.sub}</em></div>
+        `;
+        blocEl.appendChild(p);
+      } else {
+        blocEl.appendChild(renderDay(item));
+      }
+    });
+    root.appendChild(blocEl);
+  });
+
+  updateGlobalProgress();
+}
+
+function renderDay(day) {
+  const isToday = DAY_DATES[day.id] === TODAY_ISO;
+  const isOpen = state.open[day.id] || isToday;
+  if (isToday && state.open[day.id] === undefined) state.open[day.id] = true;
+
+  const completed = day.tasks.filter((_, i) => state.tasks[taskKey(day.id, i)]).length;
+  const total = day.tasks.length;
+  const isComplete = completed === total && total > 0;
+  const pct = total ? Math.round(100 * completed / total) : 0;
+
+  const el = document.createElement('article');
+  el.className = `day ${isToday ? 'today' : ''} ${isOpen ? 'open' : ''} ${isComplete ? 'complete' : ''}`;
+  el.dataset.dayId = day.id;
+
+  el.innerHTML = `
+    <button class="day-toggle" type="button">
+      <span class="day-id">${day.id}</span>
+      <div class="day-main">
+        <div class="day-date">${day.date}</div>
+        <div class="day-title">${day.title}</div>
+        <div class="day-meta">
+          <div class="mini-prog"><div class="mini-prog-fill" style="width:${pct}%"></div></div>
+          <span>${completed}/${total}</span>
+        </div>
+      </div>
+    </button>
+    <div class="day-body">
+      ${day.focus ? `<div class="focus-flag">★ Jour clé — ne pas sacrifier</div>` : ''}
+      <div class="tasks">
+        ${day.tasks.map((t, i) => `
+          <label class="task">
+            <input type="checkbox" data-day="${day.id}" data-idx="${i}" ${state.tasks[taskKey(day.id, i)] ? 'checked' : ''}>
+            <span class="task-text">${t}</span>
+          </label>
+        `).join('')}
+      </div>
+      <div class="notes">
+        <div class="notes-label">Notes du jour</div>
+        <textarea data-notes="${day.id}" placeholder="Ce qui a bloqué, ce à revoir, formules oubliées…">${state.notes[day.id] || ''}</textarea>
+      </div>
+    </div>
+  `;
+
+  // Toggle déplier
+  el.querySelector('.day-toggle').addEventListener('click', (e) => {
+    el.classList.toggle('open');
+    state.open[day.id] = el.classList.contains('open');
+    saveState();
+  });
+
+  // Cases à cocher
+  el.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+    cb.addEventListener('change', () => {
+      const dayId = cb.dataset.day;
+      const idx = cb.dataset.idx;
+      state.tasks[taskKey(dayId, idx)] = cb.checked;
+      saveState();
+
+      // Mise à jour visuelle du jour
+      const dayEl = cb.closest('.day');
+      const dayData = findDay(dayId);
+      const done = dayData.tasks.filter((_, i) => state.tasks[taskKey(dayId, i)]).length;
+      const tot = dayData.tasks.length;
+      dayEl.querySelector('.mini-prog-fill').style.width = `${Math.round(100*done/tot)}%`;
+      dayEl.querySelector('.day-meta span').textContent = `${done}/${tot}`;
+      dayEl.classList.toggle('complete', done === tot);
+      updateGlobalProgress();
+    });
+  });
+
+  // Notes
+  el.querySelector('textarea').addEventListener('input', (e) => {
+    state.notes[day.id] = e.target.value;
+    saveState();
+  });
+
+  return el;
+}
+
+function findDay(dayId) {
+  for (const g of PLAN) {
+    for (const it of g.items) {
+      if (it.type === 'day' && it.id === dayId) return it;
+    }
+  }
+  return null;
+}
+
+function updateGlobalProgress() {
+  let total = 0, done = 0;
+  PLAN.forEach(g => g.items.forEach(it => {
+    if (it.type === 'day') {
+      total += it.tasks.length;
+      it.tasks.forEach((_, i) => {
+        if (state.tasks[taskKey(it.id, i)]) done++;
+      });
+    }
+  }));
+  const pct = total ? Math.round(100 * done / total) : 0;
+  document.getElementById('globalProg').style.width = `${pct}%`;
+  document.getElementById('globalNum').textContent = `${done} / ${total}`;
+
+  // Message contextuel
+  let msg = '';
+  if (done === 0) msg = 'Démarrage — premier jour J1 mardi 26 mai';
+  else if (pct < 25) msg = 'Bloc 1 en cours · bases EM';
+  else if (pct < 50) msg = 'Tu avances bien — continue';
+  else if (pct < 75) msg = 'Plus de la moitié faite';
+  else if (pct < 100) msg = 'Dernière ligne droite';
+  else msg = '🎯 Tout terminé. Repos avant l\'examen.';
+  document.getElementById('globalSub').textContent = msg;
+}
+
+// ════════════════════════════════════════════════════════
+// MODAL RESET
+// ════════════════════════════════════════════════════════
+const modal = document.getElementById('modal');
+document.getElementById('resetBtn').addEventListener('click', () => modal.classList.add('show'));
+document.getElementById('cancelReset').addEventListener('click', () => modal.classList.remove('show'));
+document.getElementById('confirmReset').addEventListener('click', async () => {
+  state = { tasks: {}, notes: {}, open: {} };
+  try { await window.storage.delete(STATE_KEY); } catch(e) {}
+  modal.classList.remove('show');
+  renderApp();
+});
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) modal.classList.remove('show');
+});
+
+// ════════════════════════════════════════════════════════
+// BOOT
+// ════════════════════════════════════════════════════════
+(async function init() {
+  await loadState();
+  renderApp();
+  // Scroll vers le jour d'aujourd'hui au démarrage
+  setTimeout(() => {
+    const todayEl = document.querySelector('.day.today');
+    if (todayEl) {
+      todayEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, 400);
+})();
+</script>
+
+</body>
+</html>
