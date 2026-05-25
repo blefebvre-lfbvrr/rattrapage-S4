@@ -378,6 +378,80 @@
   }
   textarea::placeholder { color: var(--ink-mute); }
 
+  /* Section Exos à refaire */
+  .exos-section {
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--border);
+  }
+  .exos-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .exos-label::before {
+    content: '✎';
+    color: var(--ink-dim);
+    font-size: 12px;
+  }
+  .task.exo {
+    padding: 9px 0;
+  }
+  .task.exo .task-text {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+    font-size: 13.5px;
+    line-height: 1.4;
+  }
+  .exo-ref {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    background: var(--surf-hi);
+    color: var(--ink-dim);
+    padding: 2px 7px;
+    border-radius: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .bloc[data-bloc="1"] .exo-ref { color: var(--b1); background: var(--b1-bg); }
+  .bloc[data-bloc="2"] .exo-ref { color: var(--b2); background: var(--b2-bg); }
+  .bloc[data-bloc="3"] .exo-ref { color: var(--b3); background: var(--b3-bg); }
+
+  .exo-label {
+    flex: 1;
+    min-width: 0;
+  }
+  .task input:checked + .task-text .exo-ref {
+    opacity: 0.5;
+  }
+  .task input:checked + .task-text .exo-label {
+    text-decoration: line-through;
+    color: var(--ink-mute);
+  }
+
+  .exo-star-icon {
+    color: var(--today);
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .task.exo-star .exo-ref {
+    background: rgba(244,211,94,0.12);
+    color: var(--today);
+  }
+  .task input:checked + .task-text .exo-star-icon {
+    opacity: 0.4;
+  }
+
   /* Pauses */
   .pause {
     background: transparent;
@@ -544,73 +618,116 @@
 const PLAN = [
   { bloc: 1, blocTitle: "Bases EM + Induction", items: [
     { type: 'day', id: 'J1', date: 'mardi 26 mai', title: 'Maxwell + boîte à outils', tasks: [
-      "Relire Cours EM (chap. 1-3) et Amphi 1",
+      "Relire Cours EM chap. 1-3 + Amphi 1",
       "Refaire propre les 4 équations de Maxwell (intégrale + locale + sens physique)",
       "Revoir les opérateurs (div, rot, grad, Δ) en cartésien et cylindrique",
       "Créer une fiche A4 récap « boîte à outils Maxwell »"
     ]},
-    { type: 'day', id: 'J2', date: 'mercredi 27 mai', title: 'Électrocinétique + Drude + Hall', tasks: [
-      "Séances 1-2 + Amphi 2 : courant, densité, conservation de la charge",
+    { type: 'day', id: 'J2', date: 'mercredi 27 mai', title: 'Électrocinétique + Drude + Cyclotron', tasks: [
+      "Cours chap. 4 + Amphi 2 : courant, densité, conservation de la charge",
       "Modèle de Drude → loi d'Ohm locale → loi de Joule",
-      "Effet Hall, force de Laplace",
-      "Refaire TD 11 (cyclotron / Drude)"
+      "Effet Hall, force de Laplace"
+    ], exos: [
+      { ref: 'TD 11.1', label: "Particule chargée dans un champ magnétique (cyclotron)" },
+      { ref: 'TD 11.2', label: "Loi d'Ohm avec champ magnétique extérieur" },
+      { ref: 'TD 12', label: "Résistance cylindrique" }
     ]},
     { type: 'day', id: 'J3', date: 'jeudi 28 mai', title: 'ARQS + Induction Neumann', tasks: [
-      "Séances 13-14 : ARQS, critère ℓ ≪ λ, conséquences sur Maxwell-Ampère",
-      "Loi de Faraday, calcul de flux et de f.é.m.",
-      "<strong>Refaire l'exo 2 de l'examen</strong> (spire + fil infini) sans correction",
-      "Compléter avec TD 15-16"
+      "Cours chap. 5 : ARQS, critère ℓ ≪ λ, courant de déplacement",
+      "Cours chap. 7.1 : loi de Faraday, calcul de flux, loi de Lenz",
+      "Inductance propre, inductance mutuelle"
+    ], exos: [
+      { ref: 'TD 13.1', label: "Conservation de la charge en régime variable" },
+      { ref: 'TD 14.1', label: "Effet Kelvin dans conducteur ohmique" },
+      { ref: 'TD 15.1+15.2', label: "Condensateur en ARQS, courant de déplacement" },
+      { ref: 'TD 20.1', label: "Spire rectangulaire entre 2 fils (proche exo 2 examen)" },
+      { ref: 'TD 20.2', label: "Inductances propre et mutuelle, coefficient de couplage" },
+      { ref: 'TD 21', label: "Pince ampèremétrique" },
+      { ref: 'Examen', label: "Refaire exo 2 (spire + fil infini, i₀ exponentielle)", star: true }
     ]},
     { type: 'day', id: 'J4', date: 'vendredi 29 mai', title: 'Induction Lorentz + canon EM', tasks: [
-      "Conducteur en mouvement, f.é.m. motionelle, bilan énergétique",
-      "<strong>Refaire intégralement l'exo 3 de l'examen</strong> (canon EM) en conditions réelles",
-      "Comparer ligne par ligne à la correction, noter où ça a bloqué"
+      "Cours chap. 7.2 : f.é.m. motionelle, conducteur en mouvement",
+      "Couplage électro-mécanique, bilan énergétique (P_él, P_J, P_méca)",
+      "Comparer ta copie d'examen à la correction, noter les 3 erreurs"
+    ], exos: [
+      { ref: 'TD 22.1', label: "Interaction de 2 tiges sur rails (équilibre)" },
+      { ref: 'TD 23.1', label: "Chute d'une tige dans un champ B (oscillations, R_c)" },
+      { ref: 'TD 24.1', label: "Haut-parleur électrodynamique (impédance motionnelle)" },
+      { ref: 'TD 25.1', label: "Freinage par induction — roue de Barlow" },
+      { ref: 'TD 26.1', label: "Galvanomètre à cadre mobile" },
+      { ref: 'Examen', label: "Refaire intégralement exo 3 (canon EM) en conditions réelles", star: true }
     ]},
     { type: 'pause', title: 'Pause · 30-31 mai', sub: 'Vraie coupure. Le sommeil consolide ce que tu as fait cette semaine.' }
   ]},
   { bloc: 2, blocTitle: "Ondes EM + Relativité + amorce Quantique", items: [
     { type: 'day', id: 'J5', date: 'lundi 1er juin', title: 'Ondes EM dans le vide', tasks: [
-      "Séances 17-18 + Amphi 6-7",
+      "Cours chap. 6.1-6.2 + Amphi 6",
       "Démonstration de l'équation d'onde depuis Maxwell (à savoir refaire)",
-      "OPPH, transversalité, relation de dispersion, polarisation",
-      "Vecteur de Poynting + énergie EM"
+      "OPPH, formalisme complexe, transversalité, polarisation",
+      "Vecteur de Poynting + énergie EM, relation de structure B = (1/c) k̂ ∧ E"
+    ], exos: [
+      { ref: 'TD 16.1', label: "OPPH et formalisme complexe (relation de dispersion, B)" },
+      { ref: 'TD 16.2', label: "Onde EM 2D, polarisation linéaire diagonale" },
+      { ref: 'TD 17.1', label: "Onde cylindrique (Poynting, E_z(r) = K/√r)" },
+      { ref: 'TD 17.2', label: "Interférences de 2 OPPH — vitesse de phase > c" }
     ]},
-    { type: 'day', id: 'J6', date: 'mardi 2 juin', title: 'Ondes guidées + épaisseur de peau', focus: true, tasks: [
-      "Séance 19 : guides d'onde, pulsation de coupure ω_c",
-      "<strong>Refaire l'exo 1 de l'examen</strong> (onde guidée) en entier sans correction",
-      "Comprendre : α via Maxwell-Gauss, ω_c = πc/a, calcul de B via Maxwell-Faraday",
-      "Séances 20-21 : ondes dans conducteurs, épaisseur de peau δ"
+    { type: 'day', id: 'J6', date: 'mardi 2 juin', title: 'Ondes guidées (jour clé)', focus: true, tasks: [
+      "Cours chap. 6.3-6.4 : guides d'onde, cavités, pulsation de coupure",
+      "Comprendre : α via Maxwell-Gauss, ω_c = πc/a, B via Maxwell-Faraday",
+      "Cours chap. 6.3.2 : ondes dans conducteurs, épaisseur de peau δ"
+    ], exos: [
+      { ref: 'TD 18', label: "Guide d'onde rectangulaire (modes f_n, dispersion, Poynting)" },
+      { ref: 'TD 19 (v1)', label: "Guide d'onde 2D — résolution de problème (quasi-identique exo 1 examen)" },
+      { ref: 'TD 19 (v2)', label: "Plasma — Klein-Gordon, communications satellitaires (bonus)" },
+      { ref: 'Examen', label: "Refaire exo 1 (onde guidée avec α, k, a, ω_c) sans correction", star: true }
     ]},
     { type: 'day', id: 'J7', date: 'mercredi 3 juin', title: 'Relativité — Galilée → Lorentz', tasks: [
-      "CM1 + Séance 1 + Amphi relativité",
-      "Postulats d'Einstein, transformations de Lorentz, facteur γ",
-      "Dilatation des durées, contraction des longueurs",
-      "<strong>Refaire l'exo 1 PM</strong> (mésons π) dans les deux référentiels"
+      "CM1 Relat + Cours chap. 1.1-1.2 : postulats d'Einstein",
+      "Transformations de Lorentz, facteur γ, dilatation des durées",
+      "Contraction des longueurs, simultanéité relative"
+    ], exos: [
+      { ref: 'TD PM 1', label: "Relativité galiléenne (vitesse de la lumière dans le train)" },
+      { ref: 'TD PM 2', label: "Transformations de Lorentz, train d'Einstein, simultanéité" },
+      { ref: 'TD PM 3', label: "Diagramme d'espace-temps, lignes d'univers" },
+      { ref: 'Examen', label: "Refaire exo 1 PM (mésons π) dans les deux référentiels", star: true }
     ]},
     { type: 'day', id: 'J8', date: 'jeudi 4 juin', title: 'Espace-temps + quadrivecteurs', tasks: [
-      "CM2 + Séances 2-3 : intervalle, cône de lumière, temps propre, causalité",
+      "CM2 Relat + Cours chap. 1.3 : intervalle, cône de lumière, temps propre, causalité",
       "Quadri-impulsion, E = γmc², relation E² = (pc)² + (mc²)²",
-      "Composition relativiste des vitesses (PM1)"
+      "Composition relativiste des vitesses, paradoxe des jumeaux"
+    ], exos: [
+      { ref: 'TD PM 4', label: "Exploration spatiale (composition de vitesses 0,6c + 0,8c)" },
+      { ref: 'TD PM 5', label: "Physique relativiste 2 (énergie, quadri-impulsion)" },
+      { ref: 'PM1 Relat', label: "Application : muons atmosphériques" }
     ]},
     { type: 'day', id: 'J9', date: 'vendredi 5 juin', title: 'Quantique partie 1', tasks: [
-      "Postulats : ψ, |ψ|², normalisation, valeurs moyennes ⟨x⟩, ⟨x²⟩",
-      "Inégalités de Heisenberg",
-      "<strong>Refaire l'exo 2 PM</strong> (fonction d'onde parabolique) + questions bonus",
-      "Démarrer Schrödinger (forme dépendante / indépendante du temps)"
+      "Cours chap. 2.1-2.2 : postulats, ψ, |ψ|², normalisation",
+      "Valeurs moyennes ⟨x⟩, ⟨x²⟩, écart-type Δx",
+      "Longueur d'onde de De Broglie, inégalités de Heisenberg"
+    ], exos: [
+      { ref: 'TD PM 6', label: "Fonction d'onde, normalisation, De Broglie, fullerènes" },
+      { ref: 'TD PM 7', label: "Heisenberg, oscillateur harmonique quantique (état fondamental)" },
+      { ref: 'Examen', label: "Refaire exo 2 PM (fonction parabolique) + questions bonus", star: true }
     ]},
     { type: 'pause', title: 'Pause · 6-7 juin', sub: 'Vraie coupure. Le J9 introduit Schrödinger pour mariner — efficace en quantique.' }
   ]},
   { bloc: 3, blocTitle: "Schrödinger + entraînement examen", items: [
     { type: 'day', id: 'J10', date: 'lundi 8 juin', title: 'Schrödinger + chute potentiel + exam blanc EM', focus: true, tasks: [
-      "Matin : états stationnaires, raccordement en x=0, coefficients r, t, probabilités R, T",
-      "Matin : <strong>refaire l'exo 3 PM</strong> (chute de potentiel) intégralement",
+      "Cours chap. 2.3-2.4 : Schrödinger (dépendante/indépendante du temps)",
+      "États stationnaires, conditions de raccordement en x=0",
       "Après-midi (3h) : examen blanc EM complet en conditions réelles",
       "Soir : correction + noter les 3 erreurs les plus importantes"
+    ], exos: [
+      { ref: 'TD PM 8', label: "États stationnaires, propriétés, opérateur Hamiltonien" },
+      { ref: 'TD PM 9', label: "Particule confinée — puits de potentiel infini" },
+      { ref: 'TD PM 10', label: "Marche de potentiel (E < V₀), R, T (proche exo 3 examen)" },
+      { ref: 'Examen', label: "Refaire exo 3 PM (chute de potentiel, neutron 4 MeV)", star: true }
     ]},
     { type: 'day', id: 'J11', date: 'mardi 9 juin', title: 'Examen blanc PM + fiches récap', tasks: [
       "Matin (3h) : examen blanc PM complet en conditions réelles",
       "Après-midi : correction détaillée",
-      "Soir : créer 2 fiches A4 recto-verso ultra-condensées (1 EM, 1 PM)"
+      "Soir : créer 2 fiches A4 recto-verso ultra-condensées (1 EM, 1 PM)",
+      "Vérifier les démos clés : équation d'onde, Schrödinger, transformations de Lorentz"
     ]},
     { type: 'day', id: 'J12', date: 'mercredi 10 juin', title: 'Veille — léger', tasks: [
       "Matin : relire les 2 fiches A4",
@@ -680,6 +797,16 @@ function flashSave() {
 // RENDU
 // ════════════════════════════════════════════════════════
 function taskKey(dayId, idx) { return `${dayId}-t${idx}`; }
+function exoKey(dayId, idx) { return `${dayId}-e${idx}`; }
+
+function dayCounts(day) {
+  const tTot = day.tasks ? day.tasks.length : 0;
+  const eTot = day.exos ? day.exos.length : 0;
+  let done = 0;
+  if (day.tasks) day.tasks.forEach((_, i) => { if (state.tasks[taskKey(day.id, i)]) done++; });
+  if (day.exos)  day.exos.forEach((_, i)  => { if (state.tasks[exoKey(day.id, i)])  done++; });
+  return { done, total: tTot + eTot };
+}
 
 function renderApp() {
   const root = document.getElementById('blocs');
@@ -719,14 +846,29 @@ function renderDay(day) {
   const isOpen = state.open[day.id] || isToday;
   if (isToday && state.open[day.id] === undefined) state.open[day.id] = true;
 
-  const completed = day.tasks.filter((_, i) => state.tasks[taskKey(day.id, i)]).length;
-  const total = day.tasks.length;
+  const { done: completed, total } = dayCounts(day);
   const isComplete = completed === total && total > 0;
   const pct = total ? Math.round(100 * completed / total) : 0;
 
   const el = document.createElement('article');
   el.className = `day ${isToday ? 'today' : ''} ${isOpen ? 'open' : ''} ${isComplete ? 'complete' : ''}`;
   el.dataset.dayId = day.id;
+
+  const exosHTML = (day.exos && day.exos.length) ? `
+    <div class="exos-section">
+      <div class="exos-label">Exos à refaire</div>
+      ${day.exos.map((e, i) => `
+        <label class="task exo ${e.star ? 'exo-star' : ''}">
+          <input type="checkbox" data-day="${day.id}" data-kind="exo" data-idx="${i}" ${state.tasks[exoKey(day.id, i)] ? 'checked' : ''}>
+          <span class="task-text">
+            <span class="exo-ref">${e.ref}</span>
+            <span class="exo-label">${e.label}</span>
+            ${e.star ? '<span class="exo-star-icon">★</span>' : ''}
+          </span>
+        </label>
+      `).join('')}
+    </div>
+  ` : '';
 
   el.innerHTML = `
     <button class="day-toggle" type="button">
@@ -745,11 +887,12 @@ function renderDay(day) {
       <div class="tasks">
         ${day.tasks.map((t, i) => `
           <label class="task">
-            <input type="checkbox" data-day="${day.id}" data-idx="${i}" ${state.tasks[taskKey(day.id, i)] ? 'checked' : ''}>
+            <input type="checkbox" data-day="${day.id}" data-kind="task" data-idx="${i}" ${state.tasks[taskKey(day.id, i)] ? 'checked' : ''}>
             <span class="task-text">${t}</span>
           </label>
         `).join('')}
       </div>
+      ${exosHTML}
       <div class="notes">
         <div class="notes-label">Notes du jour</div>
         <textarea data-notes="${day.id}" placeholder="Ce qui a bloqué, ce à revoir, formules oubliées…">${state.notes[day.id] || ''}</textarea>
@@ -758,28 +901,29 @@ function renderDay(day) {
   `;
 
   // Toggle déplier
-  el.querySelector('.day-toggle').addEventListener('click', (e) => {
+  el.querySelector('.day-toggle').addEventListener('click', () => {
     el.classList.toggle('open');
     state.open[day.id] = el.classList.contains('open');
     saveState();
   });
 
-  // Cases à cocher
+  // Cases à cocher (tâches + exos)
   el.querySelectorAll('input[type="checkbox"]').forEach(cb => {
     cb.addEventListener('change', () => {
       const dayId = cb.dataset.day;
+      const kind = cb.dataset.kind;
       const idx = cb.dataset.idx;
-      state.tasks[taskKey(dayId, idx)] = cb.checked;
+      const key = kind === 'exo' ? exoKey(dayId, idx) : taskKey(dayId, idx);
+      state.tasks[key] = cb.checked;
       saveState();
 
       // Mise à jour visuelle du jour
       const dayEl = cb.closest('.day');
       const dayData = findDay(dayId);
-      const done = dayData.tasks.filter((_, i) => state.tasks[taskKey(dayId, i)]).length;
-      const tot = dayData.tasks.length;
-      dayEl.querySelector('.mini-prog-fill').style.width = `${Math.round(100*done/tot)}%`;
+      const { done, total: tot } = dayCounts(dayData);
+      dayEl.querySelector('.mini-prog-fill').style.width = `${tot ? Math.round(100*done/tot) : 0}%`;
       dayEl.querySelector('.day-meta span').textContent = `${done}/${tot}`;
-      dayEl.classList.toggle('complete', done === tot);
+      dayEl.classList.toggle('complete', done === tot && tot > 0);
       updateGlobalProgress();
     });
   });
@@ -806,10 +950,9 @@ function updateGlobalProgress() {
   let total = 0, done = 0;
   PLAN.forEach(g => g.items.forEach(it => {
     if (it.type === 'day') {
-      total += it.tasks.length;
-      it.tasks.forEach((_, i) => {
-        if (state.tasks[taskKey(it.id, i)]) done++;
-      });
+      const c = dayCounts(it);
+      total += c.total;
+      done += c.done;
     }
   }));
   const pct = total ? Math.round(100 * done / total) : 0;
