@@ -585,7 +585,7 @@
 
 <header>
   <div class="sup">FGE2 · S4 · UE2 — Rattrapages</div>
-  <h1>12 jours pour tout reprendre <em>· Électromagnétisme & Physique moderne</em></h1>
+  <h1>10 jours · induction & quantique <em>· Programme rattrapage UE2</em></h1>
   <div class="prog-wrap">
     <div class="prog-bar"><div class="prog-fill" id="globalProg"></div></div>
     <div class="prog-num" id="globalNum">0 / 0</div>
@@ -616,124 +616,107 @@
 // DONNÉES DU PLANNING
 // ════════════════════════════════════════════════════════
 const PLAN = [
-  { bloc: 1, blocTitle: "Bases EM + Induction", items: [
-    { type: 'day', id: 'J1', date: 'mardi 26 mai', title: 'Maxwell + boîte à outils', tasks: [
-      "Relire Cours EM chap. 1-3 + Amphi 1",
-      "Refaire propre les 4 équations de Maxwell (intégrale + locale + sens physique)",
-      "Revoir les opérateurs (div, rot, grad, Δ) en cartésien et cylindrique",
-      "Créer une fiche A4 récap « boîte à outils Maxwell »"
-    ]},
-    { type: 'day', id: 'J2', date: 'mercredi 27 mai', title: 'Électrocinétique + Drude + Cyclotron', tasks: [
-      "Cours chap. 4 + Amphi 2 : courant, densité, conservation de la charge",
-      "Modèle de Drude → loi d'Ohm locale → loi de Joule",
-      "Effet Hall, force de Laplace"
+  { bloc: 1, blocTitle: "Induction électromagnétique", items: [
+    { type: 'day', id: 'J1', date: 'jeudi 28 mai', title: 'Induction de Neumann — fondamentaux', tasks: [
+      "Lire Cours chap. 7 section 7.1 (Neumann complet)",
+      "Maîtriser : circuit immobile + champ B variable, champ électromoteur, e = −dΦ/dt",
+      "Énoncer la loi de Lenz + savoir l'appliquer pour prédire le sens du courant induit",
+      "Méthode flux : orienter la spire (dS) → calculer Φ → dériver → e = −dΦ/dt → i = e/R",
+      "Inductance propre L, inductance mutuelle M, coefficient de couplage K = |M|/√(L₁L₂)"
     ], exos: [
-      { ref: 'TD 11.1', label: "Particule chargée dans un champ magnétique (cyclotron)" },
-      { ref: 'TD 11.2', label: "Loi d'Ohm avec champ magnétique extérieur" },
-      { ref: 'TD 12', label: "Résistance cylindrique" }
+      { ref: 'TD 20 - Test', label: "QCMs Lenz (aimant + spire, 2 spires coaxiales)" },
+      { ref: 'TD 20.1', label: "Spire rectangulaire entre 2 fils infinis (Neumann acquisition)" },
+      { ref: 'TD 20.2', label: "Inductances propres + mutuelle de 2 bobines coaxiales" }
     ]},
-    { type: 'day', id: 'J3', date: 'jeudi 28 mai', title: 'ARQS + Induction Neumann', tasks: [
-      "Cours chap. 5 : ARQS, critère ℓ ≪ λ, courant de déplacement",
-      "Cours chap. 7.1 : loi de Faraday, calcul de flux, loi de Lenz",
-      "Inductance propre, inductance mutuelle"
+    { type: 'day', id: 'J2', date: 'vendredi 29 mai', title: 'Induction Neumann — TDs avancés + exo examen', tasks: [
+      "Revoir la méthode complète et l'appliquer sans hésitation",
+      "Cas typiques : fil infini + spire, champ uniforme variable, bobines couplées",
+      "Vérifier systématiquement la cohérence avec Lenz (signe du i induit)",
+      "Comparer ta copie d'examen à la correction, noter les 2 erreurs principales"
     ], exos: [
-      { ref: 'TD 13.1', label: "Conservation de la charge en régime variable" },
-      { ref: 'TD 14.1', label: "Effet Kelvin dans conducteur ohmique" },
-      { ref: 'TD 15.1+15.2', label: "Condensateur en ARQS, courant de déplacement" },
-      { ref: 'TD 20.1', label: "Spire rectangulaire entre 2 fils (proche exo 2 examen)" },
-      { ref: 'TD 20.2', label: "Inductances propre et mutuelle, coefficient de couplage" },
-      { ref: 'TD 21', label: "Pince ampèremétrique" },
-      { ref: 'Examen', label: "Refaire exo 2 (spire + fil infini, i₀ exponentielle)", star: true }
+      { ref: 'TD 21', label: "Pince ampèremétrique (Neumann avec tore + N spires)" },
+      { ref: 'Examen', label: "Refaire exo 2 (spire + fil infini, i₀ = I₀e^(−t/τ)) sans correction", star: true }
     ]},
-    { type: 'day', id: 'J4', date: 'vendredi 29 mai', title: 'Induction Lorentz + canon EM', tasks: [
-      "Cours chap. 7.2 : f.é.m. motionelle, conducteur en mouvement",
-      "Couplage électro-mécanique, bilan énergétique (P_él, P_J, P_méca)",
-      "Comparer ta copie d'examen à la correction, noter les 3 erreurs"
+    { type: 'pause', title: 'Pause · 30-31 mai', sub: 'Vraie coupure. Le sommeil consolide ce que tu as fait sur Neumann.' }
+  ]},
+  { bloc: 2, blocTitle: "Induction Lorentz + amorce Quantique", items: [
+    { type: 'day', id: 'J3', date: 'lundi 1er juin', title: 'Induction de Lorentz — fondamentaux', tasks: [
+      "Lire Cours chap. 7 section 7.2 (Lorentz complet)",
+      "F.é.m. motionelle : e = ∫(v ∧ B) · dM, cas barre sur rails → e = ±vBℓ",
+      "Efforts de Laplace : F_L = i ∫(dM ∧ B), formule barre : F_L = iBℓ",
+      "Méthode couplage électromécanique : (E1) électrique + (E2) mécanique → ODE en v(t)",
+      "Bilan énergétique : P_U = P_J + dE_c/dt (interpréter chaque terme)"
     ], exos: [
-      { ref: 'TD 22.1', label: "Interaction de 2 tiges sur rails (équilibre)" },
-      { ref: 'TD 23.1', label: "Chute d'une tige dans un champ B (oscillations, R_c)" },
-      { ref: 'TD 24.1', label: "Haut-parleur électrodynamique (impédance motionnelle)" },
-      { ref: 'TD 25.1', label: "Freinage par induction — roue de Barlow" },
-      { ref: 'TD 26.1', label: "Galvanomètre à cadre mobile" },
+      { ref: 'TD 22 - Tests', label: "QCMs f.é.m. motionelle + sens des efforts de Laplace" },
+      { ref: 'TD 22.1', label: "Interaction de 2 tiges sur rails (Lorentz acquisition)" }
+    ]},
+    { type: 'day', id: 'J4', date: 'mardi 2 juin', title: 'Lorentz — TDs avancés + exo examen', focus: true, tasks: [
+      "Identifier régime asymptotique : vitesse limite v_∞, courant limite i_∞",
+      "Repérer la constante de temps τ = mR/(Bℓ)² (apparaît dans tous ces problèmes)",
+      "Comparer ta copie d'examen à la correction, noter les 3 erreurs principales"
+    ], exos: [
+      { ref: 'TD 23.1', label: "Chute d'une tige sur rails verticaux avec bobine L" },
+      { ref: 'TD 24.1', label: "Haut-parleur électrodynamique (bobine + membrane + ressort)" },
+      { ref: 'TD 25.1', label: "Freinage par induction — roue de Barlow + condensateur" },
+      { ref: 'TD 26.1', label: "Galvanomètre à cadre mobile (rotation, couple)" },
       { ref: 'Examen', label: "Refaire intégralement exo 3 (canon EM) en conditions réelles", star: true }
     ]},
-    { type: 'pause', title: 'Pause · 30-31 mai', sub: 'Vraie coupure. Le sommeil consolide ce que tu as fait cette semaine.' }
+    { type: 'day', id: 'J5', date: 'mercredi 3 juin', title: 'Quantique — Fonction d\'onde + Heisenberg', tasks: [
+      "Lire Cours chap. 2.1-2.2 : postulats, fonction d'onde ψ, densité |ψ|²",
+      "Relations de De Broglie : p = ℏk, E = ℏω",
+      "Normalisation : ∫|ψ|² dx = 1 (sur tout le domaine de définition)",
+      "Valeurs moyennes : ⟨x⟩ = ∫ x|ψ|² dx, ⟨x²⟩ = ∫ x²|ψ|² dx",
+      "Écart-type Δx = √(⟨x²⟩ − ⟨x⟩²), inégalité Δx · Δp ≥ ℏ/2",
+      "Astuce calcul : fonction impaire intégrée sur domaine symétrique = 0"
+    ], exos: [
+      { ref: 'TD PM 6.1', label: "Longueur d'onde de De Broglie (personne, électron, fullerènes)" },
+      { ref: 'TD PM 6.2/6.3', label: "Normalisation, probabilité, onde plane libre + Schrödinger" },
+      { ref: 'TD PM 7', label: "Oscillateur harmonique quantique (Heisenberg saturé)" },
+      { ref: 'Examen', label: "Refaire exo 2 PM (ψ ∝ √(1−x²/a²)) + bonus", star: true }
+    ]}
   ]},
-  { bloc: 2, blocTitle: "Ondes EM + Relativité + amorce Quantique", items: [
-    { type: 'day', id: 'J5', date: 'lundi 1er juin', title: 'Ondes EM dans le vide', tasks: [
-      "Cours chap. 6.1-6.2 + Amphi 6",
-      "Démonstration de l'équation d'onde depuis Maxwell (à savoir refaire)",
-      "OPPH, formalisme complexe, transversalité, polarisation",
-      "Vecteur de Poynting + énergie EM, relation de structure B = (1/c) k̂ ∧ E"
+  { bloc: 3, blocTitle: "Quantique : Schrödinger + Entraînement", items: [
+    { type: 'day', id: 'J6', date: 'jeudi 4 juin', title: 'Schrödinger + états stationnaires + puits', tasks: [
+      "Lire Cours chap. 2.3 : équation de Schrödinger (dépendante + indépendante du temps)",
+      "État stationnaire : ψ(x,t) = e^(−iEt/ℏ) · φ(x), avec Ĥφ = Eφ (valeur propre)",
+      "Équation indépendante : −(ℏ²/2m) φ''(x) + V(x)φ(x) = E φ(x)",
+      "Solutions selon E vs V : exponentielles complexes (oscillantes) ou réelles (décroissantes)",
+      "Cours chap. 2.4 : puits infini → quantification k_n = nπ/a, E_n = n²π²ℏ²/(2ma²)",
+      "Fonctions propres normalisées : φ_n(x) = √(2/a) sin(nπx/a)"
     ], exos: [
-      { ref: 'TD 16.1', label: "OPPH et formalisme complexe (relation de dispersion, B)" },
-      { ref: 'TD 16.2', label: "Onde EM 2D, polarisation linéaire diagonale" },
-      { ref: 'TD 17.1', label: "Onde cylindrique (Poynting, E_z(r) = K/√r)" },
-      { ref: 'TD 17.2', label: "Interférences de 2 OPPH — vitesse de phase > c" }
+      { ref: 'TD PM 8', label: "QCMs sur états stationnaires (propriétés, Ĥφ = Eφ)" },
+      { ref: 'TD PM 9.1', label: "Signe de l'énergie dans le puits infini (E ≤ 0 impossible)" },
+      { ref: 'TD PM 9.2', label: "États stationnaires complets du puits infini" }
     ]},
-    { type: 'day', id: 'J6', date: 'mardi 2 juin', title: 'Ondes guidées (jour clé)', focus: true, tasks: [
-      "Cours chap. 6.3-6.4 : guides d'onde, cavités, pulsation de coupure",
-      "Comprendre : α via Maxwell-Gauss, ω_c = πc/a, B via Maxwell-Faraday",
-      "Cours chap. 6.3.2 : ondes dans conducteurs, épaisseur de peau δ"
+    { type: 'day', id: 'J7', date: 'vendredi 5 juin', title: 'Marches, chutes, barrières + exo examen', focus: true, tasks: [
+      "Cours chap. 2.5 : marche de potentiel (cas E > V₀ et E < V₀)",
+      "Cas E > V₀ : k₁ et k₂ réels, ondes oscillantes des 2 côtés",
+      "Cas E < V₀ : ψ exponentielle décroissante (zone classiquement interdite)",
+      "Conditions de raccordement : continuité de φ ET de φ' en x = 0",
+      "Coefficients r = B₁/A₁, t = A₂/A₁ ; probabilités R = |r|², T = 1−R",
+      "Barrière de potentiel : effet tunnel, T ∝ e^(−2αL) en approximation barrière épaisse"
     ], exos: [
-      { ref: 'TD 18', label: "Guide d'onde rectangulaire (modes f_n, dispersion, Poynting)" },
-      { ref: 'TD 19 (v1)', label: "Guide d'onde 2D — résolution de problème (quasi-identique exo 1 examen)" },
-      { ref: 'TD 19 (v2)', label: "Plasma — Klein-Gordon, communications satellitaires (bonus)" },
-      { ref: 'Examen', label: "Refaire exo 1 (onde guidée avec α, k, a, ω_c) sans correction", star: true }
+      { ref: 'TD PM 10', label: "Marche de potentiel (cas E < V₀, raccordement, R = 1)" },
+      { ref: 'Examen', label: "Refaire exo 3 PM (chute de potentiel, neutron 4 MeV → T ≃ 89%)", star: true }
     ]},
-    { type: 'day', id: 'J7', date: 'mercredi 3 juin', title: 'Relativité — Galilée → Lorentz', tasks: [
-      "CM1 Relat + Cours chap. 1.1-1.2 : postulats d'Einstein",
-      "Transformations de Lorentz, facteur γ, dilatation des durées",
-      "Contraction des longueurs, simultanéité relative"
-    ], exos: [
-      { ref: 'TD PM 1', label: "Relativité galiléenne (vitesse de la lumière dans le train)" },
-      { ref: 'TD PM 2', label: "Transformations de Lorentz, train d'Einstein, simultanéité" },
-      { ref: 'TD PM 3', label: "Diagramme d'espace-temps, lignes d'univers" },
-      { ref: 'Examen', label: "Refaire exo 1 PM (mésons π) dans les deux référentiels", star: true }
+    { type: 'pause', title: 'Pause · 6-7 juin', sub: 'Vraie coupure avant la dernière ligne droite.' },
+    { type: 'day', id: 'J8', date: 'lundi 8 juin', title: 'Examen blanc EM (induction)', focus: true, tasks: [
+      "Matin (1h30, conditions réelles) : refaire l'examen complet sur induction (exos 2 et 3) sans documents",
+      "Après-midi : correction très détaillée, identifier les 3 erreurs les plus importantes",
+      "Faire un TD supplémentaire de ton choix parmi 21, 23, 25, 26 si tu as le temps",
+      "Soir : créer une fiche A4 recto-verso « Induction » condensée (méthode + formules clés)"
     ]},
-    { type: 'day', id: 'J8', date: 'jeudi 4 juin', title: 'Espace-temps + quadrivecteurs', tasks: [
-      "CM2 Relat + Cours chap. 1.3 : intervalle, cône de lumière, temps propre, causalité",
-      "Quadri-impulsion, E = γmc², relation E² = (pc)² + (mc²)²",
-      "Composition relativiste des vitesses, paradoxe des jumeaux"
-    ], exos: [
-      { ref: 'TD PM 4', label: "Exploration spatiale (composition de vitesses 0,6c + 0,8c)" },
-      { ref: 'TD PM 5', label: "Physique relativiste 2 (énergie, quadri-impulsion)" },
-      { ref: 'PM1 Relat', label: "Application : muons atmosphériques" }
+    { type: 'day', id: 'J9', date: 'mardi 9 juin', title: 'Examen blanc PM (quantique)', tasks: [
+      "Matin (1h30, conditions réelles) : refaire l'examen complet PM (exos 2 et 3) sans documents",
+      "Après-midi : correction détaillée + un autre TD parmi PM 6, 8, 9 si temps",
+      "Soir : créer une fiche A4 recto-verso « Mécanique quantique » condensée",
+      "Revoir les 3 démos clés : Schrödinger indépendant, marche E < V₀, oscillateur harmonique"
     ]},
-    { type: 'day', id: 'J9', date: 'vendredi 5 juin', title: 'Quantique partie 1', tasks: [
-      "Cours chap. 2.1-2.2 : postulats, ψ, |ψ|², normalisation",
-      "Valeurs moyennes ⟨x⟩, ⟨x²⟩, écart-type Δx",
-      "Longueur d'onde de De Broglie, inégalités de Heisenberg"
-    ], exos: [
-      { ref: 'TD PM 6', label: "Fonction d'onde, normalisation, De Broglie, fullerènes" },
-      { ref: 'TD PM 7', label: "Heisenberg, oscillateur harmonique quantique (état fondamental)" },
-      { ref: 'Examen', label: "Refaire exo 2 PM (fonction parabolique) + questions bonus", star: true }
-    ]},
-    { type: 'pause', title: 'Pause · 6-7 juin', sub: 'Vraie coupure. Le J9 introduit Schrödinger pour mariner — efficace en quantique.' }
-  ]},
-  { bloc: 3, blocTitle: "Schrödinger + entraînement examen", items: [
-    { type: 'day', id: 'J10', date: 'lundi 8 juin', title: 'Schrödinger + chute potentiel + exam blanc EM', focus: true, tasks: [
-      "Cours chap. 2.3-2.4 : Schrödinger (dépendante/indépendante du temps)",
-      "États stationnaires, conditions de raccordement en x=0",
-      "Après-midi (3h) : examen blanc EM complet en conditions réelles",
-      "Soir : correction + noter les 3 erreurs les plus importantes"
-    ], exos: [
-      { ref: 'TD PM 8', label: "États stationnaires, propriétés, opérateur Hamiltonien" },
-      { ref: 'TD PM 9', label: "Particule confinée — puits de potentiel infini" },
-      { ref: 'TD PM 10', label: "Marche de potentiel (E < V₀), R, T (proche exo 3 examen)" },
-      { ref: 'Examen', label: "Refaire exo 3 PM (chute de potentiel, neutron 4 MeV)", star: true }
-    ]},
-    { type: 'day', id: 'J11', date: 'mardi 9 juin', title: 'Examen blanc PM + fiches récap', tasks: [
-      "Matin (3h) : examen blanc PM complet en conditions réelles",
-      "Après-midi : correction détaillée",
-      "Soir : créer 2 fiches A4 recto-verso ultra-condensées (1 EM, 1 PM)",
-      "Vérifier les démos clés : équation d'onde, Schrödinger, transformations de Lorentz"
-    ]},
-    { type: 'day', id: 'J12', date: 'mercredi 10 juin', title: 'Veille — léger', tasks: [
-      "Matin : relire les 2 fiches A4",
-      "Début d'après-midi : revoir les 3 exos de l'examen original à blanc",
+    { type: 'day', id: 'J10', date: 'mercredi 10 juin', title: 'Veille — léger', tasks: [
+      "Matin : relire les 2 fiches A4 (induction + quantique)",
+      "Début d'après-midi : revoir une dernière fois les 4 exos clés (2+3 examen EM, 2+3 examen PM)",
       "Après 16h : STOP physique. Marche, sport doux, dîner léger, dormir tôt",
-      "Pas de nouvelle notion ce jour-là"
+      "Pas de nouvelle notion ce jour-là — confiance"
     ]}
   ]}
 ];
@@ -744,15 +727,16 @@ const TODAY_ISO = (() => {
 })();
 
 const DAY_DATES = {
-  'J1':'2026-05-26','J2':'2026-05-27','J3':'2026-05-28','J4':'2026-05-29',
-  'J5':'2026-06-01','J6':'2026-06-02','J7':'2026-06-03','J8':'2026-06-04','J9':'2026-06-05',
-  'J10':'2026-06-08','J11':'2026-06-09','J12':'2026-06-10'
+  'J1':'2026-05-28','J2':'2026-05-29',
+  'J3':'2026-06-01','J4':'2026-06-02','J5':'2026-06-03',
+  'J6':'2026-06-04','J7':'2026-06-05',
+  'J8':'2026-06-08','J9':'2026-06-09','J10':'2026-06-10'
 };
 
 // ════════════════════════════════════════════════════════
 // PERSISTENCE (localStorage — fonctionne partout)
 // ════════════════════════════════════════════════════════
-const STATE_KEY = 'ue2-revisions-state';
+const STATE_KEY = 'ue2-revisions-state-v2';
 let state = { tasks: {}, notes: {}, open: {} };
 
 function loadState() {
@@ -961,10 +945,10 @@ function updateGlobalProgress() {
 
   // Message contextuel
   let msg = '';
-  if (done === 0) msg = 'Démarrage — premier jour J1 mardi 26 mai';
-  else if (pct < 25) msg = 'Bloc 1 en cours · bases EM';
-  else if (pct < 50) msg = 'Tu avances bien — continue';
-  else if (pct < 75) msg = 'Plus de la moitié faite';
+  if (done === 0) msg = 'Démarrage — premier jour J1 jeudi 28 mai';
+  else if (pct < 30) msg = 'Bloc 1 en cours · induction Neumann';
+  else if (pct < 60) msg = 'Tu avances bien — Lorentz et amorce quantique';
+  else if (pct < 85) msg = 'Quantique en cours · plus de la moitié faite';
   else if (pct < 100) msg = 'Dernière ligne droite';
   else msg = '🎯 Tout terminé. Repos avant l\'examen.';
   document.getElementById('globalSub').textContent = msg;
